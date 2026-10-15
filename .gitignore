@@ -53,3 +53,10 @@ build/
 /lesson20/move_a.txt
 /lesson20/move_b.txt
 /lesson20/raii_demo.txt
+# Lesson 25 generated files
+/lesson25/partial_write
+/lesson25/eintr_write
+/lesson25/read_all
+/lesson25/io_robust
+/lesson25/message.txt
+/lesson25/output.txt
