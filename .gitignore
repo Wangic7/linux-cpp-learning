@@ -15,3 +15,41 @@ build/
 # Editor temporary files
 *.swp
 *~
+
+# Lesson 20 executables
+/lesson20/fd_demo
+/lesson20/fd_move_assign
+/lesson20/fd_raii
+/lesson20/fd_reuse
+/lesson20/file_demo
+/lesson20/lseek_demo
+/lesson20/read_demo
+
+# Lesson 21 executables
+/lesson21/fork_first
+/lesson21/fork_variable
+/lesson21/fork_wait
+
+# Lesson 22 executables
+/lesson22/fork_exit
+/lesson22/orphan_demo
+/lesson22/process_sleep
+
+# Lesson 23 executables
+/lesson23/graceful_shutdown
+/lesson23/signal_demo
+/lesson23/signal_handler
+
+# Lesson 24 executables
+/lesson24/pipe_basic
+/lesson24/pipe_eof
+/lesson24/pipe_fork
+/lesson24/pipe_project
+
+# Lesson 20 temporary test files
+/lesson20/a.txt
+/lesson20/b.txt
+/lesson20/c.txt
+/lesson20/move_a.txt
+/lesson20/move_b.txt
+/lesson20/raii_demo.txt
