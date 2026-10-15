@@ -1,0 +1,17 @@
+# C/C++ build files
+*.o
+*.out
+*.exe
+*.a
+*.so
+
+# Build directories
+build/
+**/build/
+
+# Runtime logs
+*.log
+
+# Editor temporary files
+*.swp
+*~
