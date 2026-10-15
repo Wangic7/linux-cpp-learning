@@ -60,3 +60,11 @@ build/
 /lesson25/io_robust
 /lesson25/message.txt
 /lesson25/output.txt
+
+# Lesson 26 generated files
+/lesson26/dup_demo
+/lesson26/dup2_demo
+/lesson26/dup_restore
+/lesson26/dup_text.txt
+/lesson26/redirect.txt
+/lesson26/restore.txt
