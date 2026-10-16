@@ -68,3 +68,9 @@ build/
 /lesson26/dup_text.txt
 /lesson26/redirect.txt
 /lesson26/restore.txt
+
+# Lesson 27 generated files
+/lesson27/fifo_create
+/lesson27/fifo_reader
+/lesson27/fifo_writer
+/lesson27/myfifo
