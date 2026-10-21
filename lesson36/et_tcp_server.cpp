@@ -15,7 +15,7 @@ using namespace std;
 // 保存每个客户端独立的通信状态
 struct ClientState
 {
-    string pending;                 // 尚未发送完的数据
+    string pending;                 // 尚未发送完的数据 pending 保存响应中尚未成功写入 Socket 的部分
     bool peerWriteClosed = false;  // 对端是否已关闭发送方向
     string recvBuffer;              // 尚未组成完整消息的数据
 };
@@ -31,8 +31,8 @@ bool setNonBlocking(int fd)
         return false;
     }
 
-    if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1)
-    {
+    if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1)//保留原来的flags时为了增加非阻塞属性，同时保留原有的其他状态标志。
+    {//  |  原来打开的开关保持打开，再打开“非阻塞”这个开关，如果只传入O_NONBLOCK可能清除原来的其他可修改的状态标志
         perror("fcntl F_SETFL");
         return false;
     }
@@ -129,8 +129,8 @@ int main()
     auto closeClient = [&](int fd)
     {
         if (epoll_ctl(epfd, EPOLL_CTL_DEL,
-                      fd, nullptr) == -1 &&
-            errno != ENOENT)
+                      fd, nullptr) == -1 &&//逻辑与，短路求值，先判断左边，左边为fales就不再计算右边，
+            errno != ENOENT)//这个客户端准备退出，请从当前 epoll 实例的关注集合中移除它
         {
             perror("epoll_ctl DEL");
         }
@@ -143,7 +143,7 @@ int main()
         }
 
         cout << "Closing client, fd = " << fd << endl;
-    };
+    };//创建这段可调用操作；函数体不会因此立刻执行。 到第 571 行调用 closeClient(fd) 时，才会执行里面的清理。
 
     // 6. 尝试发送指定客户端的待发送数据
     auto flushPending = [&](int fd) -> bool
@@ -157,12 +157,12 @@ int main()
 
         ClientState& state = it->second;
 
-        while (!state.pending.empty())
+        while (!state.pending.empty())//只要还有尚未成功写出的字节，就继续尝试
         {
             ssize_t n = write(
-                fd,
-                state.pending.data(),
-                state.pending.size()
+                fd,//往哪个客户端连接写
+                state.pending.data(),//待发送字节在内存中的起始地址
+                state.pending.size()//本次希望写出的字节数；；实际成功写入多少，要看返回值 n
             );
 
             if (n > 0)
@@ -471,8 +471,8 @@ int main()
                              << " bytes from fd "
                              << fd << endl;
 
-                        if (!flushPending(fd))
-                        {
+                        if (!flushPending(fd))//如果发送处理失败，就标记这个连接需要关闭
+                        {//flushPending(fd) 返回 false,! 表示“取反”，所以 !false 变成 true,if 的条件为 true，于是执行大括号里的代码,shouldClose = true; 把“需要关闭连接”的标记设为真，后面的代码会据此关闭连接
                             shouldClose = true;
                             break;
                         }
